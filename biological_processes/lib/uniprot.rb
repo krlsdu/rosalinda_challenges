@@ -3,9 +3,12 @@ require 'nokogiri'
 
 module Uniprot
   def self.get_bp(uniprot_id)
-    url = "http://www.uniprot.org/uniprot/#{uniprot_id}"
-    doc = Nokogiri::HTML(open(url))
-    puts doc.css('ul li a')
+    biological_process = []
+    url                = "http://www.uniprot.org/uniprot/#{uniprot_id}"
+    doc                = Nokogiri::HTML(open(url))
+    doc.xpath('//ul[@class="noNumbering biological_process"]/li/a').each do |uniprot|
+      biological_process << uniprot.content
+    end
+    biological_process.inspect
   end
-
 end
